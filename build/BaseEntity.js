@@ -260,7 +260,7 @@ class BaseEntity {
         return this;
     }
     setValues(values) {
-        Object.assign(this, values);
+        Object.assign(this, { _values: Object.assign(Object.assign({}, this._values), values) });
         return this;
     }
     save() {

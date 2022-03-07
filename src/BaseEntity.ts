@@ -284,7 +284,7 @@ export class BaseEntity {
     }
 
     public setValues<T extends BaseEntity>(this: T, values: IArgvValues<T>) {
-        Object.assign(this, values);
+        Object.assign(this, { _values: { ...this._values, ...values } });
         return this;
     }
 

@@ -1,0 +1,53 @@
+import IORedis from "ioredis";
+import { PerformanceHelper } from "./helpers/PerformanceHelper";
+import { ConnectionConfig, IEntityColumn, IEntityColumns, IEntityMeta } from "./types";
+declare class RedisOrm {
+    private _entityMetas;
+    private _entityColumns;
+    private _entitySchemasJsons;
+    private _connectionConfigs;
+    getConnectionConfig(target: object): ConnectionConfig;
+    getConnectionConfigByConnection(connection: string): ConnectionConfig;
+    getEntityMeta(target: object): IEntityMeta;
+    getDefaultTable(target: object): string;
+    getTablePrefix(target: object): string;
+    getConnection(target: object): string;
+    hasPrimaryKey(target: object): boolean;
+    getPrimaryKey(target: object): string;
+    getAutoIncrementKey(target: object): string;
+    getIndexKeys(target: object): string[];
+    getUniqueKeys(target: object): string[];
+    getEntityColumns(target: object): {
+        [key: string]: IEntityColumn;
+    };
+    getSchemasJson(target: object): string;
+    getEntityColumn(target: object, column: string): IEntityColumn;
+    getColumns(target: object): string[];
+    isIndexKey(target: object, column: string): boolean;
+    isValidColumn(target: object, column: string): boolean;
+    isSearchableColumn(target: object, column: string): boolean;
+    isUniqueKey(target: object, column: string): boolean;
+    isPrimaryKey(target: object, column: string): boolean;
+    isSortableColumn(target: object, column: string): boolean;
+    isNumberColumn(target: object, column: string): boolean;
+    isDateColumn(target: object, column: string): boolean;
+    getRedis(target: object, registerRedis?: boolean): Promise<IORedis.Redis>;
+    compareSchemas(target: object, tableName: string): Promise<string[]>;
+    getRemoteSchemas(target: object, tableName: string): Promise<{
+        [key: string]: IEntityColumn;
+    } | null>;
+    getEntityStorageKey(tableName: string, entityId: string): string;
+    getIndexStorageKey(tableName: string, column: string): string;
+    getUniqueStorageKey(tableName: string, column: string): string;
+    getSchemasStorageKey(): string;
+    getEntityTypes(): object[];
+    getRemoteSchemasList(connection?: string): Promise<IEntityColumns>;
+    getPerformanceHelper(target: object, skipTracking?: boolean): Promise<PerformanceHelper>;
+    private _registerLuaLock;
+    private _registerLua;
+    private _validateSchemas;
+    private _openFile;
+}
+export declare const redisOrm: RedisOrm;
+export declare function schemaJsonReplacer(key: any, value: any): any;
+export {};
